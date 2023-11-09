@@ -1,5 +1,5 @@
 # Collective Behaviour - Group C
-We will be reviewing and recreating a collective behaviour algorithm for herding sheep by a sheepdog presented in paper by Liu et al. in [[1]](#1). We will simulate an environment with predetermined starting positions of all sheep and the sheepdog, while also creating a sheepfold as a final goal for the sheep. We will review the performance of the algorithms presented in paper, while also trying to implement some new and compare the results.
+We will be reviewing and recreating a collective behaviour algorithm for herding sheep by a sheepdog presented in paper by [Liu et al](https://ieeexplore.ieee.org/document/9549396). in [[1]](#1). We will simulate an environment with predetermined starting positions of all sheep and the sheepdog, while also creating a sheepfold as a final goal for the sheep. We will review the performance of the algorithms presented in paper, while also trying to implement some new and compare the results.
 
 Proposed timeline of work during the course, available on [Milestones](https://github.com/mh4043/CollectiveBehavour-GroupC/milestones)
 | Description | Date |
