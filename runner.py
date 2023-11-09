@@ -8,6 +8,11 @@ import configparser
 config = configparser.ConfigParser()
 config.read('config.ini')
 
+# parameters = config['PARAMETERS']
+# split da mamo lahko komentarje
+parameters = {key: float(p.split()[0]) for key, p in config['PARAMETERS'].items()}
+
+
 
 def setup_plot():
     # Setup a plot
