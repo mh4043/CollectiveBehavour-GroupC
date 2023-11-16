@@ -20,13 +20,13 @@ sheep_arr = []
 sheep_count = int(config['SHEEP']['N'])
 for i in range(1, sheep_count + 1):
     curr_sheep_x, curr_sheep_y = config['SHEEP'][f'p{i}'].split(',')
-    sheep_obj = Sheep(int(curr_sheep_x), int(curr_sheep_y), parameters)
+    sheep_obj = Sheep(int(curr_sheep_x), int(curr_sheep_y), parameters, config['GOAL'])
     sheep_obj.goal_not_reached = True
     sheep_arr.append(sheep_obj)
 
 success = False
 step = 0
-while step != 1000 and not success:
+while step != 3000 and not success:
 
     if not step % 100:
         print(f"Step: {step}")
