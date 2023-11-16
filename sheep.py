@@ -20,11 +20,13 @@ class Sheep():
 
     # ? parameters for constant values from .ini file
 
-    def __init__(self, x: int, y: int, parameters: dict[str, float], goal_params: dict[str, float]):
+    def __init__(self, x: int, y: int, goal, parameters: dict[str, float],):
         self.position = np.array([x, y])
         self.param = parameters
-        self.goal_params = goal_params
         self.velocity = np.array([0, 0])
+
+        self.goal_position = np.array([int(goal[0]), int(goal[1])])
+        self.goal_radius = int(goal[2])
 
     # ? 4
 
@@ -76,6 +78,5 @@ class Sheep():
 
         # Check goal entry
         self.goal_reached = sheep_reached_goal(self,
-                                               np.array([int(self.goal_params['X']),
-                                                         int(self.goal_params['Y'])]),
-                                               int(self.goal_params['RAD']))
+                                                  self.goal_position,
+                                                    self.goal_radius)

@@ -12,15 +12,17 @@ config.read('config.ini')
 # Read parameters from config file
 parameters = {key: float(p.split()[0]) for key, p in config['PARAMETERS'].items()}
 
+goal = [int(config['GOAL']['X']), int(config['GOAL']['Y']), int(config['GOAL']['RAD'])]
+
 # Setup starting positions
-dog = ShepherdDog(config['DOG']['X'], config['DOG']['Y'], parameters)
+dog = ShepherdDog(config['DOG']['X'], config['DOG']['Y'], goal, parameters)
 
 sheep_arr = []
 
 sheep_count = int(config['SHEEP']['N'])
 for i in range(1, sheep_count + 1):
     curr_sheep_x, curr_sheep_y = config['SHEEP'][f'p{i}'].split(',')
-    sheep_obj = Sheep(int(curr_sheep_x), int(curr_sheep_y), parameters, config['GOAL'])
+    sheep_obj = Sheep(int(curr_sheep_x), int(curr_sheep_y), goal, parameters)
     sheep_obj.goal_not_reached = True
     sheep_arr.append(sheep_obj)
 

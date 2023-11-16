@@ -21,27 +21,29 @@ def sheep_reached_goal(sheep, goal_position, goal_radius):
 
 
 
-def all_sheep_on_left_side(sheep_arr, dog):
+def all_sheep_on_left_side(sheep_arr, dog, goal_position):
     """
-    Check if all sheep are on the left side of the dog
+    Check if all sheep are on the left side of the dog based on the goal position and dog position
     """
 
     for sheep in sheep_arr:
-        if sheep.position[0] > dog.position[0]:
+        # Use the vector from dog to sheep and dog to goal to determine if the sheep is on the left side
+        # TODO check result
+        if np.cross(sheep.position - dog.position, goal_position - dog.position) < 0:
             return False
-
+        
     return True
 
 
-def all_sheep_on_right_side(sheep_arr, dog):
+def all_sheep_on_right_side(sheep_arr, dog, goal_position):
     """
     Check if all sheep are on the right side of the dog
     """
 
     for sheep in sheep_arr:
-        if sheep.position[0] < dog.position[0]:
+        # Use the vector from dog to sheep and dog to goal to determine if the sheep is on the right side
+        if np.cross(sheep.position - dog.position, goal_position - dog.position) > 0:
             return False
-
     return True
 
 
@@ -110,6 +112,8 @@ def find_left_most_visible_sheep(visible_sheep, dog):
     """
     Find the left most sheep that is visible to the dog
     """
+
+    # TODO Check for correct implementation
 
     # Return the sheep with the smallest x value
     return min(visible_sheep, key=lambda sheep: sheep.position[0])
