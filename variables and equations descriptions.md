@@ -73,3 +73,13 @@
 * (15) $` \underline{ \mathbb{P}_d = \{ p|p \in \mathbb{R}^{2}, ||p-p_d|| \leq \rho_o \} } `$ ... definition of sheepfold
   * $` p_d \in \mathbb{R}^{2} `$
   * $` \rho_o \gt 0 `$ ... parameter, user defined
+    
+* (16) $` p_i^d(k) = p_i(k) - p_d `$
+
+* (17) $` d(q(0),\mathbb{P}_s(0)) \gt 0 `$ ... initial condition
+  * $` \lim\limits_{k \to \infty} d(p_i(k),\mathbb{P}_d) = 0 `$ ... for all $` i \in N `$
+
+
+**Algorithm**
+
+
