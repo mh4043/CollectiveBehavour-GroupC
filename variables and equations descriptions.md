@@ -1,3 +1,5 @@
+**Equations and variables**
+
 * $` \underline{ x \in \mathbb{R}^{2} } `$ ... nonzero vector
 
 * $` \underline{ o(x) = \frac{x}{||x||} } `$ ... unit vector with same orientation as $` x `$
