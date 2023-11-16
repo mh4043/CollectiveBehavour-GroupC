@@ -67,7 +67,8 @@ while step != 3000 and not success:
         plt.close()
 
 
-    dog.calculate_velocity(sheep_arr)
+    if dog.calculate_velocity(sheep_arr):
+        print("Success at step: ", step)
     dog.move()
 
     # Move sheep

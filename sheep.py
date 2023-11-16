@@ -15,6 +15,7 @@ class Sheep():
     # Current parameters
     position: np.array(int) = [0, 0]  # x,y coordinate vector
     velocity: np.array(int) = [0, 0]  # Velocity for each axis
+    color: str = 'blue'
 
     goal_reached: bool = False
 

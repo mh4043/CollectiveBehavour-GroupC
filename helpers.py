@@ -72,8 +72,10 @@ def sheep_is_covered(sheep, sheep_arr, dog): #? 11, 12
     return False
 
 
+#? 11
 def sheep_is_in_visible_range(sheep, dog):
     # Check if distance from dog to sheep is less than the dog's vision radius
+
     return vec_length(sheep.position - dog.position) <= dog.radius
 
 
@@ -108,24 +110,136 @@ def get_visible_sheep(dog, sheep_arr):
 
 
 
-def find_left_most_visible_sheep(visible_sheep, dog):
+def find_left_most_visible_from_dog(visible_sheep, dog):
     """
     Find the left most sheep that is visible to the dog
     """
+    left_most = visible_sheep[0]
+    left_most_vect = unit_vector(left_most.position - dog.position)
 
-    # TODO Check for correct implementation
+    init_vector = unit_vector(np.array([0, 0]) - dog.position)
+    left_most_angle = angle_between_vectors(init_vector, left_most_vect)
 
-    # Return the sheep with the smallest x value
-    return min(visible_sheep, key=lambda sheep: sheep.position[0])
+    for sheep in visible_sheep:
+        sheep_vect = unit_vector(sheep.position - dog.position)
+        angle = angle_between_vectors(init_vector, sheep_vect)
+
+        if angle < left_most_angle:
+            left_most = sheep
+            left_most_angle = angle
+
+    return left_most
 
 
-def find_right_most_visible(sheep_arr, dog):
+
+def find_right_most_visible_from_dog(sheep_arr, dog):
     """
     Find the right most sheep that is visible to the dog
     """
+    right_most = sheep_arr[0]
+    right_most_vect = unit_vector(right_most.position - dog.position)
+
+    init_vector = unit_vector(np.array([0, 0]) - dog.position)
+    right_most_angle = angle_between_vectors(init_vector, right_most_vect)
+
+    for sheep in sheep_arr:
+        sheep_vect = unit_vector(sheep.position - dog.position)
+        angle = angle_between_vectors(init_vector, sheep_vect)
+
+        if angle > right_most_angle:
+            right_most = sheep
+            right_most_angle = angle
+
+    return right_most
+
+
+def calculate_sheep_herd_center(sheep_arr):
+    """
+    Calculate the center of the sheep herd
+    """
+    # Calculate the mean of the x and y coordinates of the sheep
+    x_mean = np.mean([sheep.position[0] for sheep in sheep_arr])
+    y_mean = np.mean([sheep.position[1] for sheep in sheep_arr])
+
+    return np.array([x_mean, y_mean])
+
+
+def find_left_most_visible_sheep_from_sheepfold(visible_sheep, dog, goal_position):
+    """
+    Find the left most sheep that is visible to the dog from the sheepfold
+    """
+
+    left_most = visible_sheep[0]
+    left_most_vect = unit_vector(left_most.position - goal_position)
+
+    init_vector = unit_vector(np.array([0, 0]) - goal_position)
+    left_most_angle = angle_between_vectors(init_vector, left_most_vect)
+
+    for sheep in visible_sheep:
+        sheep_vect = unit_vector(sheep.position - goal_position)
+        angle = angle_between_vectors(init_vector, sheep_vect)
+
+        if angle < left_most_angle:
+            left_most = sheep
+            left_most_angle = angle
+
+    return left_most
+
+
+#? 22
+def find_right_most_visible_sheep_from_sheepfold(visible_sheep, dog, goal_position):
+    """
+    Find the right most sheep that is visible to the dog from the sheepfold
+    """
+
+    right_most = visible_sheep[0]
+    right_most_vect = unit_vector(right_most.position - goal_position)
+
+    init_vector = unit_vector(np.array([0, 0]) - goal_position)
+    right_most_angle = angle_between_vectors(init_vector, right_most_vect)
+
+    for sheep in visible_sheep:
+        sheep_vect = unit_vector(sheep.position - goal_position)
+        angle = angle_between_vectors(init_vector, sheep_vect)
+
+        if angle > right_most_angle:
+            right_most = sheep
+            right_most_angle = angle
+
+    return right_most
+
+
+
+#? 26
+def calc_left_cosine(sheep_arr, dog, goal_position):
+    # Left sheep from sheepfold pov
+
+    visible_sheep = get_visible_sheep(dog, sheep_arr)
+    left_most_sheep_from_fold = find_left_most_visible_sheep_from_sheepfold(visible_sheep, dog, goal_position) #? 20
     
-    # Return the sheep with the largest x value
-    return max(sheep_arr, key=lambda sheep: sheep.position[0])
+    left_most_fold_sheep_vect = dog.position - left_most_sheep_from_fold.position #? 21
+
+    sheep_herd_center = calculate_sheep_herd_center(visible_sheep) #? 19
+    dcd = unit_vector(goal_position - sheep_herd_center) #? 22
+
+    # TODO Check why the division is using a vector length of 1 in dcd
+    return np.inner(dcd, left_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(left_most_fold_sheep_vect))
+
+
+#? 25
+def calc_right_cosine(sheep_arr, dog, goal_position):
+    # Right sheep from sheepfold pov
+
+    visible_sheep = get_visible_sheep(dog, sheep_arr)
+    right_most_sheep_from_fold = find_right_most_visible_sheep_from_sheepfold(visible_sheep, dog, goal_position) #? 20
+    
+    right_most_fold_sheep_vect = dog.position - right_most_sheep_from_fold.position #? 21
+
+    sheep_herd_center = calculate_sheep_herd_center(visible_sheep) #? 19
+    dcd = unit_vector(goal_position - sheep_herd_center) #? 22
+
+    # TODO Check why the division is using a vector length of 1 in dcd
+    return np.inner(dcd, right_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(right_most_fold_sheep_vect))
 
 
 
