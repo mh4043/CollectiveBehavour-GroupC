@@ -126,8 +126,8 @@
 * $` N `$ -> number of sheep
 * $` p_1(0)\text{, ..., }p_N(0) `$ -> starting positions of sheep
 * $` \rho_s `$ -> radius of sheep
-* $` a_i `$ -> parameter in equation (8)
-* $` \omega_i `$ -> parameter in equation (8)
+* $` a_i `$ -> parameter used in equation (8)
+* $` \omega_i `$ -> parameter used in equation (8)
 * $` \alpha `$ -> gain parameter used in equation (10a)
 * $` \beta `$ -> gain parameter used in equation (10b)
 * $` \gamma `$ -> gain parameter used in equation (10b)
