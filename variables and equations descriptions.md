@@ -48,7 +48,7 @@
                \end{cases} `$
     * $` \alpha, \beta \gt 0, \gamma \lt 0 `$ ... gains
     * $` \rho_n, \rho_r, \rho_g, \rho_d \gt 0 `$ ... distance parameters (radius from center of an entity, user defined)
-    * **Footnote: there are some inconsistencies between distance parameters in the explanation in the article and on the figure 1 in the article!**
+    * **Footnote: there might be some inconsistencies between distance parameters in the explanation in the article and on the figure 1 in the article!**
 
 * if $` \underline{ o(p_i^q(k)) = o(p_j^q(k)) } `$ and $` \underline{ ||p_j^q(k)|| \lt ||p_i^q(k)|| } `$ ... then $` i `$th sheep is *vision-blocked* by $` j `$th sheep from viewpoint of sheepdog. Otherwise it is *non vision-blocked*
   * $` i, j \in N, i \neq j `$
@@ -74,12 +74,67 @@
   * $` p_d \in \mathbb{R}^{2} `$
   * $` \rho_o \gt 0 `$ ... parameter, user defined
     
-* (16) $` p_i^d(k) = p_i(k) - p_d `$
+* (16) $` p_i^d(k) = p_i(k) - p_d `$ ... distance between $` i `$th sheep and sheepfold
 
 * (17) $` d(q(0),\mathbb{P}_s(0)) \gt 0 `$ ... initial condition
-  * $` \lim\limits_{k \to \infty} d(p_i(k),\mathbb{P}_d) = 0 `$ ... for all $` i \in N `$
+  * (18) $` \lim\limits_{k \to \infty} d(p_i(k),\mathbb{P}_d) = 0 `$ ... for all $` i \in N `$
 
 
 **Algorithm**
 
+* (19) $` \underline{ D^{cd}(k) = o(p_d - p_c(k)) } `$ ... direction of the sheep herd (center) based on center of sheepfold
+* (19) $` \underline{ D^{qd}(k) = o(p_d - q(k))  } `$ ... direction of the sheepdog based on center of sheepfold 
 
+* (20) $` \underline{ D_r(k) = \{ p_i(k)|i \in \mathbb{V}(k), \forall j \in \mathbb{V}(k), j \neq i, p_j^q(k) \in \mathbb{P}_l(p_i^q(k)) \} } `$ ... the $` i `$th sheep is the rightmost sheep from the view of the sheepdog
+  * position of the $` i `$th sheep ($` p_i(k) `$), where the sheep is among visible sheep ($` i \in \mathbb{V}(k) `$) and for every other sheep ($` j `$) among visible sheep ($` \forall j \in \mathbb{V}(k), j \neq i `$), it holds that distances between every other sheep and sheepdog are on the left-hand side area of the distance between $` i `$th sheep and sheepdog ($` p_j^q(k) \in \mathbb{P}_l(p_i^q(k)) `$)
+
+* (21) $` \underline{ D_l(k) = \{ p_i(k)|i \in \mathbb{V}(k), \forall j \in \mathbb{V}(k), j \neq i, p_j^q(k) \in \mathbb{P}_r(p_i^q(k)) \} } `$ ... the $` i `$th sheep is the leftmost sheep from the view of the sheepdog
+  * position of the $` i `$th sheep ($` p_i(k) `$), where the sheep is among visible sheep ($` i \in \mathbb{V}(k) `$) and for every other sheep ($` j `$) among visible sheep ($` \forall j \in \mathbb{V}(k), j \neq i `$), it holds that distances between every other sheep and sheepdog are on the right-hand side area of the distance between $` i `$th sheep and sheepdog ($` p_j^q(k) \in \mathbb{P}_r(p_i^q(k)) `$)
+
+* (22) $` \underline{ C_r(k) = \{ p_i(k)|i \in \mathbb{V}(k), \text{ such that, } \forall j \in \mathbb{V}(k), j\neq i, \text{ it follows } p_j^d(k) \in \mathbb{P}_l(p_i^d(k)), ||p_i^d(k)|| \gt ||p_j^d(k)|| \} } `$ ... the $` i `$th sheep is the rightmost sheep from the view of the sheepfold
+  * position of the $` i `$th sheep ($` p_i(k) `$), where the sheep is among visible sheep ($` i \in \mathbb{V}(k) `$), such that for every other sheep ($` j `$) among visible sheep ($` \forall j \in \mathbb{V}(k), j \neq i `$), it follows that distances between every other sheep and sheepfold are on the left-hand side area of the distance between $` i `$th sheep and sheepfold ($` p_j^q(k) \in \mathbb{P}_l(p_i^q(k)) `$) and that length of the distance between $` i `$th sheep and sheepfold is greater than lengths of the distances between every other sheep and sheepfold ($` ||p_i^d(k)|| \gt ||p_j^d(k)|| `$)
+
+* (23) $` \underline{ C_l(k) = \{ p_i(k)|i \in \mathbb{V}(k), \text{ such that, } \forall j \in \mathbb{V}(k), j\neq i, \text{ it follows } p_j^d(k) \in \mathbb{P}_r(p_i^d(k)), ||p_i^d(k)|| \gt ||p_j^d(k)|| \} } `$ ... the $` i `$th sheep is the leftmost sheep from the view of the sheepfold
+  * position of the $` i `$th sheep ($` p_i(k) `$), where the sheep is among visible sheep ($` i \in \mathbb{V}(k) `$), such that for every other sheep ($` j `$) among visible sheep ($` \forall j \in \mathbb{V}(k), j \neq i `$), it follows that distances between every other sheep and sheepfold are on the right-hand side area of the distance between $` i `$th sheep and sheepfold ($` p_j^q(k) \in \mathbb{P}_r(p_i^q(k)) `$) and that length of the distance between $` i `$th sheep and sheepfold is greater than lengths of the distances between every other sheep and sheepfold ($` ||p_i^d(k)|| \gt ||p_j^d(k)|| `$)
+ 
+* (24) $` \underline{ \mathbb{Q}_l(k) = \{ x \in \mathbb{R}^{2}|p_i(k) \in \mathbb{S}_r(p_d - x) \} } `$
+* (24) $` \underline{ \mathbb{Q}_r(k) = \{ x \in \mathbb{R}^{2}|p_i(k) \in \mathbb{S}_l(p_d - x) \} } `$
+  * if $` q(k) \in \mathbb{Q}_l(k) `$ then all the sheep are on the right-hand side of $` D^{qd}(k) `$
+  * if $` q(k) \in \mathbb{Q}_r(k) `$ then all the sheep are on the left-hand side of $` D^{qd}(k) `$
+
+* (25) $` \underline{ R_c(k) = \frac{\langle D^{cd}(k), q(k) - C_r(k) \rangle}{||D^{cd}(k)||*||q(k) - C_r(k)||} } `$
+  * $` \langle D^{cd}(k), q(k) - C_r(k) \rangle `$ ... inner product or dot product of vectors $` D^{cd}(k) `$ and $` q(k) - C_r(k) `$
+  * $` \theta_t `$ positive threshold for $` R_c(k) `$
+  
+* (26) $` \underline{ L_c(k) = \frac{\langle D^{cd}(k), q(k) - C_l(k) \rangle}{||D^{cd}(k)||*||q(k) - C_l(k)||} } `$
+  * $` \langle D^{cd}(k), q(k) - C_l(k) \rangle `$ ... inner product or dot product of vectors $` D^{cd}(k) `$ and $` q(k) - C_l(k) `$
+  * $` \theta_t `$ positive threshold for $` L_c(k) `$
+
+* $` \underline{ \lambda(k) } `$ ... flag function indication the current state of the sheepdog
+
+* $` \underline{\textit{K}} `$ ... upper time limit
+
+
+**Algorithm parameters defined by user**
+
+* $` p_d `$ -> position of sheepfold
+* $` \rho_o `$ -> radius of sheepfold
+* $` q(0) `$ -> starting position of sheepdog
+* $` \rho_n `$ -> radius of sheepdog
+* $` N `$ -> number of sheep
+* $` p_1(0)\text{, ..., }p_N(0) `$ -> starting positions of sheep
+* $` \rho_s `$ -> radius of sheep
+* $` a_i `$ -> parameter in equation (8)
+* $` \omega_i `$ -> parameter in equation (8)
+* $` \alpha `$ -> gain parameter used in equation (10a)
+* $` \beta `$ -> gain parameter used in equation (10b)
+* $` \gamma `$ -> gain parameter used in equation (10b)
+* $` \rho_r `$ -> distance parameter used in equation (10b)
+* $` \rho_g `$ -> distance parameter used in equation (10b)
+* $` \rho_d `$ -> distance parameter used in equation (10b)
+* $` \theta_t `$ -> threshold parameter used for equations (25) and (26) (design parameter in initialization)
+* $` \theta_l `$ -> parameter in algorithm (design parameter in initialization)
+* $` \theta_r `$ -> parameter in algorithm (design parameter in initialization)
+* $` r_a `$ -> parameter in algorithm (design parameter in initialization)
+* $` \gamma_a `$ -> parameter in algorithm (design parameter in initialization)
+* $` \gamma_b `$ -> parameter in algorithm (design parameter in initialization)
