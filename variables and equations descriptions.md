@@ -49,3 +49,27 @@
     * $` \alpha, \beta \gt 0, \gamma \lt 0 `$ ... gains
     * $` \rho_n, \rho_r, \rho_g, \rho_d \gt 0 `$ ... distance parameters (radius from center of an entity, user defined)
     * **Footnote: there are some inconsistencies between distance parameters in the explanation in the article and on the figure 1 in the article!**
+
+* if $` \underline{ o(p_i^q(k)) = o(p_j^q(k)) } `$ and $` \underline{ ||p_j^q(k)|| \lt ||p_i^q(k)|| } `$ ... then $` i `$th sheep is *vision-blocked* by $` j `$th sheep from viewpoint of sheepdog. Otherwise it is *non vision-blocked*
+  * $` i, j \in N, i \neq j `$
+
+* if sheep *non vision-blocked* and $` \underline{ ||p_i^q(k)|| \leq \rho_v } `$ ... then it is *visible* to the sheepdog. Otherwise it is *in-visible*
+  * $` \rho_v `$ .. vision radius of sheepdog
+
+* (11) $` \underline{ \Lambda_i(t) =
+           \begin{cases}
+             1, & \text{the }i\text{th sheep is }\textit{visible}\text{ to the sheepdog} \\
+             0, & \text{the }i\text{th sheep is }\textit{invisible}\text{ to the sheepdog}
+           \end{cases} } `$
+
+* (12) $` \underline{ \mathbb{V}(k) = \{i|i \in N, \Lambda_i(k) = 1\} } `$ ... set of visible sheep for the sheepdog
+
+* (13) $` \underline{ p_c(k) = \frac{\sum\limits_{\substack{i \in \mathbb{V}(k)}} p_i(k)}{C(\mathbb{V}(k))} } `$ ... estimated center of sheep herd (sum of positions of sheep from the set of visible sheep $` \mathbb{V}(k) `$ divided by the number of all sheep in the set of visible sheep $` C(\mathbb{V}(k)) `$)
+  * $` C(\mathbb{V}(k)) \gt 0 `$
+ 
+* (14) $` \underline{ \mathbb{P}_s(k) = \{ p(k)|p(k) \in \mathbb{R}^{2}, p(k) = \sum\limits_{\substack{i = 1}}^N \gamma_ip_i(k), 0 \leq \gamma_i \leq 1, \sum\limits_{\substack{i = 1}}^N \gamma_i = 1 \} } `$ ... the sheep herd polygon
+  * $` \gamma_i `$ ... parameter, user defined
+
+* (15) $` \underline{ \mathbb{P}_d = \{ p|p \in \mathbb{R}^{2}, ||p-p_d|| \leq \rho_o \} } `$ ... definition of sheepfold
+  * $` p_d \in \mathbb{R}^{2} `$
+  * $` \rho_o \gt 0 `$ ... parameter, user defined
