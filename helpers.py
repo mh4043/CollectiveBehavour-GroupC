@@ -29,7 +29,8 @@ def all_sheep_on_left_side(sheep_arr, dog, goal_position):
     for sheep in sheep_arr:
         # Use the vector from dog to sheep and dog to goal to determine if the sheep is on the left side
         # TODO check result
-        if np.cross(sheep.position - dog.position, goal_position - dog.position) < 0:
+        #if np.cross(sheep.position - dog.position, goal_position - dog.position) < 0:
+        if (goal_position-dog.position)[0]*(sheep.position-dog.position)[1] - (goal_position-dog.position)[1]*(sheep.position-dog.position)[0] < 0:
             return False
         
     return True
@@ -42,7 +43,8 @@ def all_sheep_on_right_side(sheep_arr, dog, goal_position):
 
     for sheep in sheep_arr:
         # Use the vector from dog to sheep and dog to goal to determine if the sheep is on the right side
-        if np.cross(sheep.position - dog.position, goal_position - dog.position) > 0:
+        #if np.cross(sheep.position - dog.position, goal_position - dog.position) > 0:
+        if (goal_position-dog.position)[0]*(sheep.position-dog.position)[1] - (goal_position-dog.position)[1]*(sheep.position-dog.position)[0] > 0:
             return False
     return True
 
@@ -57,7 +59,7 @@ def sheep_is_covered(sheep, sheep_arr, dog): #? 11, 12
 
     # Calculate distance from dog to sheep
     distance = vec_length(sheep.position - dog.position)
-
+    """ 
     for other_sheep in sheep_arr:
       if other_sheep == sheep:
           continue
@@ -69,6 +71,16 @@ def sheep_is_covered(sheep, sheep_arr, dog): #? 11, 12
       # Calculate if the sheep is covered by the other sheep by subtracting one unit vector from the other
       if vec_length(piq - dog_curr_sheep_vect) == 0 and vec_length(other_sheep.position - dog.position) < distance:
           return True
+    return False 
+    """
+
+    for other_sheep in sheep_arr:
+        if other_sheep == sheep:
+            continue
+        piq_c = unit_vector(other_sheep.position - dog.position)
+        angle = math.atan2(piq[0], piq[1]) - math.atan2(piq_c[0],piq_c[1])
+        if angle == 0 and distance > vec_length(piq):
+            return True
     return False
 
 
@@ -175,6 +187,8 @@ def find_left_most_visible_sheep_from_sheepfold(visible_sheep, dog, goal_positio
     init_vector = unit_vector(np.array([0, 0]) - goal_position)
     left_most_angle = angle_between_vectors(init_vector, left_most_vect)
 
+    dist = vec_length(left_most.position - goal_position)
+
     for sheep in visible_sheep:
         sheep_vect = unit_vector(sheep.position - goal_position)
         angle = angle_between_vectors(init_vector, sheep_vect)
@@ -182,6 +196,12 @@ def find_left_most_visible_sheep_from_sheepfold(visible_sheep, dog, goal_positio
         if angle < left_most_angle:
             left_most = sheep
             left_most_angle = angle
+            dist = vec_length(sheep.position - goal_position)
+        elif angle == left_most_angle:
+            if vec_length(sheep.position - goal_position) > dist:
+                left_most = sheep
+                left_most_angle = angle
+                dist = vec_length(sheep.position - goal_position)
 
     return left_most
 
@@ -198,6 +218,7 @@ def find_right_most_visible_sheep_from_sheepfold(visible_sheep, dog, goal_positi
     init_vector = unit_vector(np.array([0, 0]) - goal_position)
     right_most_angle = angle_between_vectors(init_vector, right_most_vect)
 
+    dist = vec_length(right_most.position - goal_position)
     for sheep in visible_sheep:
         sheep_vect = unit_vector(sheep.position - goal_position)
         angle = angle_between_vectors(init_vector, sheep_vect)
@@ -205,6 +226,12 @@ def find_right_most_visible_sheep_from_sheepfold(visible_sheep, dog, goal_positi
         if angle > right_most_angle:
             right_most = sheep
             right_most_angle = angle
+            dist = vec_length(sheep.position - goal_position)
+        elif angle == right_most_angle:
+            if vec_length(sheep.position - goal_position) > dist:
+                right_most = sheep
+                right_most_angle = angle
+                dist = vec_length(sheep.position - goal_position)
 
     return right_most
 
@@ -223,7 +250,9 @@ def calc_left_cosine(sheep_arr, dog, goal_position):
     dcd = unit_vector(goal_position - sheep_herd_center) #? 22
 
     # TODO Check why the division is using a vector length of 1 in dcd
-    return np.inner(dcd, left_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(left_most_fold_sheep_vect))
+    #return np.inner(dcd, left_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(left_most_fold_sheep_vect))
+    print(math.acos(np.dot(dcd, left_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(left_most_fold_sheep_vect))))
+    return math.acos(np.dot(dcd, left_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(left_most_fold_sheep_vect)))
 
 
 #? 25
@@ -239,7 +268,9 @@ def calc_right_cosine(sheep_arr, dog, goal_position):
     dcd = unit_vector(goal_position - sheep_herd_center) #? 22
 
     # TODO Check why the division is using a vector length of 1 in dcd
-    return np.inner(dcd, right_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(right_most_fold_sheep_vect))
+    #return np.inner(dcd, right_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(right_most_fold_sheep_vect))
+    print(math.acos(np.dot(dcd, right_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(right_most_fold_sheep_vect))))
+    return math.acos(np.dot(dcd, right_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(right_most_fold_sheep_vect)))
 
 
 
@@ -247,6 +278,4 @@ def angle_between_vectors(vec1, vec2):
     """
     Calculate the angle between two vectors
     """
-    un_v1 = unit_vector(vec1)
-    un_v2 = unit_vector(vec2)
-    return math.degrees(np.arccos(np.dot(un_v1, un_v2) / (np.linalg.norm(un_v1) * np.linalg.norm(un_v2))))
+    return math.atan2(vec1[0], vec1[1]) - math.atan2(vec2[0], vec2[1])

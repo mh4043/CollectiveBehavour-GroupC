@@ -28,9 +28,9 @@ for i in range(1, sheep_count + 1):
 
 success = False
 step = 0
-while step != 3000 and not success:
+while step != 50 and not success:
 
-    if not step % 100:
+    if not step % 2:
         print(f"Step: {step}")
         # Plot the current positions
         fig = plt.figure()

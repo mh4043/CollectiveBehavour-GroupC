@@ -43,8 +43,9 @@ class ShepherdDog():
         # TODO, rotate sheep if needed when implementing the angle
 
         # Check if all sheep are on left side of the dog
-        if all_sheep_on_left_side(sheep_arr, self, self.goal_position) and calc_left_cosine(sheep_arr, self, self.goal_position) > self.param['theta_t']: #? 24
-            self.lambd= 1
+        if all_sheep_on_right_side(sheep_arr, self, self.goal_position) and calc_left_cosine(sheep_arr, self, self.goal_position) > float(self.param['theta_t']): #? 24
+            print("All sheep on left side")
+            self.lambd= 0
 
             # Get left most visible sheep
             left_most_sheep = find_left_most_visible_from_dog(visible_sheep, self)
@@ -53,14 +54,15 @@ class ShepherdDog():
             piq = left_most_sheep.position - self.position
 
             # Check if sheep is far away to justify a chase
-            if vec_length(piq) > self.radius:
+            if vec_length(piq) >= float(self.param['rar']):
                 self.velocity = int(self.param['gamma_a']) * unit_vector(piq)
             else:
-                self.velocity = rotation(float(self.param['theta_l'])).dot(piq)
+                self.velocity =int(self.param['gamma_b']) * rotation(float(self.param['theta_r'])).dot(piq)
 
         # Check if all sheep are on right side of the dog
-        elif all_sheep_on_right_side(sheep_arr, self, self.goal_position) and calc_right_cosine(sheep_arr, self, self.goal_position) > self.param['theta_t']: #? 25
-            self.lambd = 0
+        elif all_sheep_on_left_side(sheep_arr, self, self.goal_position) and calc_right_cosine(sheep_arr, self, self.goal_position) > float(self.param['theta_t']): #? 25
+            print("All sheep on right side")
+            self.lambd = 1
 
             # Get right most visible sheep
             right_most_sheep = find_right_most_visible_from_dog(visible_sheep, self)
@@ -69,12 +71,13 @@ class ShepherdDog():
             piq = right_most_sheep.position - self.position
 
             # Check if sheep is far away to justify a chase
-            if vec_length(piq) > self.radius:
+            if vec_length(piq) >= float(self.param['rar']):
                 self.velocity = int(self.param['gamma_a']) * unit_vector(piq)
             else:
-                self.velocity = rotation(float(self.param['theta_r'])).dot(piq)
+                self.velocity = int(self.param['gamma_b']) * rotation(float(self.param['theta_l'])).dot(piq)
         
         elif self.lambd == 1:
+            print("Lambda = 1")
             # Get left most visible sheep
             left_most_sheep = find_left_most_visible_from_dog(visible_sheep, self)
 
@@ -82,11 +85,12 @@ class ShepherdDog():
             piq = left_most_sheep.position - self.position
 
             # Check if sheep is far away to justify a chase
-            if vec_length(piq) > self.radius:
+            if vec_length(piq) >= float(self.param['rar']):
                 self.velocity = int(self.param['gamma_a']) * unit_vector(piq)
             else:
-                self.velocity = rotation(float(self.param['theta_l'])).dot(piq)
+                self.velocity =int(self.param['gamma_b']) * rotation(float(self.param['theta_l'])).dot(piq)
         else:
+            print("Lambda = 0")
             # Get right most visible sheep
             right_most_sheep = find_right_most_visible_from_dog(visible_sheep, self)
 
@@ -94,10 +98,10 @@ class ShepherdDog():
             piq = right_most_sheep.position - self.position
 
             # Check if sheep is far away to justify a chase
-            if vec_length(piq) > self.radius:
+            if vec_length(piq) >= float(self.param['rar']):
                 self.velocity = int(self.param['gamma_a']) * unit_vector(piq)
             else:
-                self.velocity = rotation(float(self.param['theta_r'])).dot(piq)
+                self.velocity = int(self.param['gamma_b']) * rotation(float(self.param['theta_r'])).dot(piq)
 
 
 

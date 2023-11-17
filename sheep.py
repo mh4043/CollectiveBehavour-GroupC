@@ -30,23 +30,16 @@ class Sheep():
         self.goal_radius = int(goal[2])
 
     # ? 4
-
-    def calculate_next_position(self, dog, sheeps: list, step: int):
-        self.calculate_next_velocity(dog, sheeps, step)
-        self.position_next = self.position + self.param['t'] * self.velocity
-        print(
-            f"Currrent position: {self.position}, Next position: {self.position_next}, velocity: {self.velocity}")
-
     def calculate_velocity(self, dog, sheep_arr: list, step: int):
         # ? 6 Distance from dog
-        piq: float = np.abs(self.position - dog.position)
+        piq: np.array(int) = self.position - dog.position
         piq_vec_length: float = vec_length(piq)
 
         vdi = 0
         # ? 10a Reaction to dog
-        if piq_vec_length > 0 and piq_vec_length <= self.param['pn']:
+        if piq_vec_length > 0 and piq_vec_length <= dog.radius:
             phi = self.param['alpha'] * \
-                (1 / piq_vec_length - 1/self.param['pn'])
+                (1 / piq_vec_length - 1/dog.radius)
             vdi = phi * unit_vector(piq)  # ? 9a
 
         vsi = 0
@@ -61,14 +54,13 @@ class Sheep():
                 tmp = self.param['beta'] * (1/(x-self.param['ps']) - 1/(self.param['pr']-self.param['ps']))
             """
             if x < self.param['pr']:
-                tmp = ((self.param['pr'] - x) /
-                       self.param['pr']) * self.param['zeta']
+                tmp = ((self.param['pr'] - x) / self.param['pr']) * self.param['zeta']
             elif self.param['pg'] < x and x <= self.param['pd']:
                 tmp = self.param['gamma'] * (x - self.param['pg'])
 
             vsi += tmp * unit_vector(self.position - sheep.position)
 
-        theta = self.param['ai'] * math.pi/180 * \
+        theta = self.param['ai'] * (math.pi/180) * \
             math.sin(self.param['wi'] * step * self.param['t'])
         vect = rotation(theta).dot(vsi)
 
