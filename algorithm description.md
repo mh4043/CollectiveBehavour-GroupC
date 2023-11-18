@@ -3,19 +3,19 @@ Input: p1(t),...,pn(t), q(t), λ(k).
 Output: u(k). // velocity of the sheepdog
 
 1. Set $` \varpi = 0 `$.
-//
+// set *the number of sheep in sheepfold area variable*
 2. for $` (i = 1, i \leq \underline{N}, i = i + 1) `$ do
 // for *every sheep* do
 3. &ensp; if $` \mathbf{d}(p_i(t), \mathbb{P}_d) = 0 `$ then
-//
+// if *distance between position of $` i `$th sheep at $` t `$th step and the sheepfold area is 0 (sheep is inside the area of sheepfold)* then
 4. &ensp; &ensp; $` \varpi = \varpi + 1 `$
-//
+// *increment $` \varpi `$ variable*
 5. if $` \varpi \lt \underline{N} `$ then
-//
+// if *the number of sheep in sheepfold is less than the number of all sheep* then
 6. &ensp; if $` q(k) \in \mathbb{Q}_l(k) \text{ \& } L_c(k) \gt \theta_t `$ then
-//
+// if *the position of the sheepdog is in $` \mathbb{Q}_l `$ set and the variable $` L_c `$ is greater than threshold $` \theta_t `$ angle* then
 7. &ensp; &ensp; $` \lambda(k) = 0 `$
-//
+// *set the flag function indicating the current state of the dog $` \lambda `$ to 0*
 8. &ensp; &ensp; if $` ||q(k) - D_r(k)|| \geq r_a `$ then
 //
 9. &ensp; &ensp; &ensp; $` u(k) = \gamma_a \mathbf{o}(q(k) - D_r(k)) `$
