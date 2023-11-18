@@ -13,11 +13,11 @@
 5. **if $` \varpi \lt \underline{N} `$ then**
 // if *the number of sheep in sheepfold is less than the number of all sheep* then
 6. **&ensp; if $` q(k) \in \mathbb{Q}_l(k) \text{ \& } L_c(k) \gt \theta_t `$ then**
-// if *the position of the sheepdog is in $` \mathbb{Q}_l `$ (left) set and the variable $` L_c `$ (left) is greater than threshold $` \theta_t `$ angle* then
+// if *the position of the sheepdog is in $` \mathbb{Q}_l `$ (left) set (all the sheep are on the righthand side) and the variable $` L_c `$ (left) is greater than threshold $` \theta_t `$ angle* then
 7. **&ensp; &ensp; $` \lambda(k) = 0 `$**
 // *set the flag function indicating the current state of the dog $` \lambda `$ to 0*
 8. **&ensp; &ensp; if $` ||q(k) - D_r(k)|| \geq r_a `$ then**
-// if *the length of subtraction of the rightmost sheep from the position of the sheepdog is greater or equal to parameter $` r_a `$,* then
+// if *the length of subtraction of the rightmost sheep from the position of the sheepdog (distance between sheepdog and rightmost sheep) is greater or equal to parameter $` r_a `$,* then
 9. **&ensp; &ensp; &ensp; $` u(k) = \gamma_a \mathbf{o}(q(k) - D_r(k)) `$**
 // *set the velocity of the sheepdog $` u(k) `$ to unit vector of subtraction of the rightmost sheep from the position of the sheepdog, multiplied by parameter $` \gamma_a `$.*
 10. **&ensp; &ensp; else**
@@ -25,11 +25,11 @@
 11. **&ensp; &ensp; &ensp; $` u(k) = \gamma_b \mathbf{R}(\theta_r) \mathbf{o}(q(k) - D_r(k)) `$**
 // *set the velocity of the sheepdog $` u(k) `$ to unit vector of subtraction of the rightmost sheep from the position of the sheepdog, multiplied by parameter $` \gamma_b `$ and by rotation matrix using the parameter $` \theta_r `$.*
 12. **&ensp; else if $` q(k) \in \mathbb{Q}_r(k) \text{ \& } R_c(k) \gt \theta_t `$ then**
-// else if *the position of the sheepdog is in $` \mathbb{Q}_r `$ (right) set and the variable $` R_c `$ (right) is greater than threshold $` \theta_t `$ angle* then
+// else if *the position of the sheepdog is in $` \mathbb{Q}_r `$ (right) set (all the sheep are on the lefthand side) and the variable $` R_c `$ (right) is greater than threshold $` \theta_t `$ angle* then
 13. **&ensp; &ensp; $` \lambda(k) = 1 `$**
 // *set the flag function indicating the current state of the dog $` \lambda `$ to 1*
 14. **&ensp; &ensp; if $` ||q(k) - D_l(k)|| \geq r_a `$ then**
-// if *the length of subtraction of the leftmost sheep from the position of the sheepdog is greater or equal to parameter $` r_a `$,* then
+// if *the length of subtraction of the leftmost sheep from the position of the sheepdog (distance between sheepdog and leftmost sheep) is greater or equal to parameter $` r_a `$,* then
 15. **&ensp; &ensp; &ensp; $` u(k) = \gamma_a \mathbf{o}(q(k) - D_l(k)) `$**
 // *set the velocity of the sheepdog $` u(k) `$ to unit vector of subtraction of the leftmost sheep from the position of the sheepdog, multiplied by parameter $` \gamma_a `$.*
 16. **&ensp; &ensp; else**
