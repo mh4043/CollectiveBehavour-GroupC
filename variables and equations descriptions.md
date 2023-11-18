@@ -79,7 +79,7 @@
 * (16) $` p_i^d(k) = p_i(k) - p_d `$ ... distance between $` i `$th sheep and sheepfold
 
 * (17) $` d(q(0),\mathbb{P}_s(0)) \gt 0 `$ ... initial condition
-  * (18) $` \lim\limits_{k \to \infty} d(p_i(k),\mathbb{P}_d) = 0 `$ ... for all $` i \in N `$
+  * (18) $` \lim\limits_{k \to \infty} d(p_i(k),\mathbb{P}_d) = 0 `$ ... for all $` i \in N `$ ... the final task (no matter the step, the distance between all sheep and sheepfold area is zero - all sheep are in the sheepfold area)
 
 
 **Algorithm**
