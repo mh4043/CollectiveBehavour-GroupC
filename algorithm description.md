@@ -1,6 +1,6 @@
-**Input:** p1(t),...,pn(t), q(t), λ(k).
+**Input:** $` p_1(t),...,p_n(t), q(t), \lambda(k) `$.
 
-**Output:** u(k). // velocity of the sheepdog
+**Output:** $` u(k) `$. // velocity of the sheepdog
 
 1. **Set $` \varpi = 0 `$.**
 // set *the number of sheep in sheepfold area variable*
