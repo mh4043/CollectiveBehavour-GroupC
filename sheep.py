@@ -65,6 +65,9 @@ class Sheep():
         vect = rotation(theta).dot(vsi)
 
         self.velocity = vdi + vect  # ? 7
+        if self.goal_reached:
+            self.velocity = 0.2 * self.velocity
+            return
 
     def move(self):
         self.position = self.position + self.velocity * self.param['t']

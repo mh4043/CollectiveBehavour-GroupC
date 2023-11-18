@@ -28,9 +28,9 @@ for i in range(1, sheep_count + 1):
 
 success = False
 step = 0
-while step != 50 and not success:
+while step != 4000 and not success:
 
-    if not step % 2:
+    if not step % 100:
         print(f"Step: {step}")
         # Plot the current positions
         fig = plt.figure()
@@ -68,7 +68,8 @@ while step != 50 and not success:
 
 
     if dog.calculate_velocity(sheep_arr):
-        print("Success at step: ", step)
+        # print("Success at step: ", step)
+        break
     dog.move()
 
     # Move sheep
