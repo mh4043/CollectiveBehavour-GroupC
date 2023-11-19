@@ -30,7 +30,7 @@ success = False
 step = 0
 while step != 4000 and not success:
 
-    if not step % 100:
+    if not step % 2:
         print(f"Step: {step}")
         # Plot the current positions
         fig = plt.figure()
@@ -62,7 +62,7 @@ while step != 4000 and not success:
         
         ax.add_artist(circle)
 
-        fig.savefig(f'./figures/sheepAt{step}.png')
+        fig.savefig(f'./figures/{step}.png')
 
         plt.close()
 

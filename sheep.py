@@ -66,8 +66,8 @@ class Sheep():
 
         self.velocity = vdi + vect  # ? 7
         if self.goal_reached:
-            self.velocity = 0.2 * self.velocity
-            return
+            #self.velocity = 0.2 * self.velocity
+            self.velocity = self.velocity
 
     def move(self):
         self.position = self.position + self.velocity * self.param['t']
