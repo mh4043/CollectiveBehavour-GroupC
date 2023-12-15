@@ -279,3 +279,23 @@ def angle_between_vectors(vec1, vec2):
     Calculate the angle between two vectors
     """
     return math.atan2(vec1[0], vec1[1]) - math.atan2(vec2[0], vec2[1])
+
+
+
+
+#* ------------------------------------------
+#! methods when dog does not detect any sheep
+def see_the_bound(pos_vec, radius, bound_width, bound_height):
+  if pos_vec[0] + radius > bound_width or pos_vec[0] - radius < 0:
+    return True
+  elif pos_vec[1] + radius > bound_height or pos_vec[1] - radius < 0:
+    return True
+  else:
+    return False
+
+
+
+
+
+
+#* ------------------------------------------
