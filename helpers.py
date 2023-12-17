@@ -118,8 +118,8 @@ def get_visible_sheep(dog, sheep_arr):
     visible_sheep = [sheep for sheep in sheep_arr if sheep_is_visible(sheep, sheep_arr, dog)]
     
     # TODO, remove when adding angle and handle it
-    assert len(visible_sheep) > 0, "No visible sheep found"
-    return visible_sheep
+    # assert len(visible_sheep) > 0, "No visible sheep found"
+    # return visible_sheep
 
 
 #* OK

@@ -10,7 +10,7 @@ class ShepherdDog():
     param: dict[str, float]
 
     position: np.array(int) = [0, 0] # x,y coordinate vector
-    velocity: np.array(int) = [0, 0] # Velocity for each axis
+    velocity: np.array(int) = [0, 0] # Velocity for each axis     
 
     lambd: int = 0 # Indicator of direction
     radius: int = 0 # Radius of the dog
@@ -48,43 +48,50 @@ class ShepherdDog():
         visible_sheep = get_visible_sheep(self, sheep_arr)
         # TODO, rotate sheep if needed when implementing the angle
 
-        if(visible_sheep == []):
-          print("No visible sheep")
-
-
+        if(visible_sheep is None or len(visible_sheep) == 0): #! dog sees no sheep
+          self.velocity = np.array([160, 160])
+          x_offset = self.param['x_offset']
+          y_offset = self.param['y_offset']
           if(self.velocity[1] < 0): 
-              self.src_direction_up = False #we are searching down
+            self.src_direction_up = False #we are searching down
           
           #poglej ali je vektor oblike [0,y] če ni ga nastavi
           #nastavimo vektor da gre prečeše gor dol (pomeni x komponenta == 0)
           if(not self.src_moving_x and self.velocity[0] != 0): #only if not moving in x direction
+            self.velocity[1] = abs(self.velocity[0])
             self.velocity[0] = 0
-            #TODO maybe do something for Y speed
+            #TODO maybe some factor something for Y speed bound it upwards
           
-          if(self.src_moving_x): #* we are moving in x direction while searching
+          if(self.src_moving_x): #* moving in x direction while searhing
             print("search moving x")
             #first check bounds
-            next_step_out_of_bounds = (self.position[0] + self.velocity[0] >= self.param['b_width'] or self.position[0] - self.velocity[0] <= 0)
+            next_step_out_of_bounds = (((self.position[0] + (self.velocity[0] * self.param['t'])) >= (self.param['width'] - x_offset)) 
+                                       or ((self.position[0] - (self.velocity[0] * self.param['t'])) <= (0 + x_offset)))
             
-            if((self.src_direction_right and (self.position[0]) >= self.src_next_x) #we reached the next x moving right
-               or (not self.src_direction_right and (self.position[0]) <= self.src_next_x) #we reached the next x moving left
+            if((self.src_direction_right and (self.position[0] >= self.src_next_x)) #we reached the next x moving right
+               or (not self.src_direction_right and (self.position[0] <= self.src_next_x)) #we reached the next x moving left
                or next_step_out_of_bounds): # next step would be out of bounds
-              self.src_moving_x = False
-              if(self.src_direction_up):
-                self.velocity = [0, -abs(self.velocity[0])]
-                self.src_direction_up = False
-              else:
+              if(self.src_direction_up): #* we are moving up
                 self.velocity = [0, abs(self.velocity[0])]
-                self.src_direction_up = True
+              else: 
+                self.velocity = [0, -abs(self.velocity[0])]
               self.src_moving_x = False
+              print('set moving x false ', self.velocity)
               if(next_step_out_of_bounds):
                 self.src_direction_right = not self.src_direction_right #flip the search direction
-          else: #* we are moving in y direction while searching
-            # # if(see_the_bound(self.position, self.radius, self.param['b_width'], self.param['b_height'])): # we encountered the boudn
-            reachedTop = ((self.position[1] + self.radius) <= self.param['b_height'])
-            reachedBottom = (self.position[1] - self.radius <= 0)
+             
+
+          else: #* searching in y direction
+            print("search moving y")
+            # print('velocity: ', self.velocity)
+            reachedTop = ((self.position[1] + self.radius) >= (self.param['height'] - y_offset))
+            reachedBottom = ((self.position[1] - self.radius) <= (0 + y_offset))
+
+            print('reached bottom ', reachedBottom)
+            
             if( reachedTop #* dog reached the top -> move to self.src_direction
                 or reachedBottom): #* dog reached the bottom -> move to self.src_direction
+              print('reached top /reach bottom', reachedTop, reachedBottom)
               diameter = 2*self.radius
               if(self.src_direction_right):
                 self.velocity = [abs(self.velocity[1]),0]
@@ -96,9 +103,9 @@ class ShepherdDog():
                 self.src_direction_up = False
               elif(reachedBottom): 
                 self.src_direction_up = True
-                 
-            
-        else: #? dog sees at least one sheep
+              self.src_moving_x = True
+              print('set moving x true ', self.velocity)
+        else: #! dog sees at least one sheep
           # Check if all sheep are on right side of the dog
           if all_sheep_on_right_side(sheep_arr, self, self.goal_position) and calc_left_cosine(sheep_arr, self, self.goal_position) > float(self.param['theta_t']): #? 24
               # print("All sheep on right side")
@@ -163,4 +170,19 @@ class ShepherdDog():
 
 
     def move(self):
-        self.position = self.position + self.velocity * self.param['t']
+        # print(self.velocity)
+        velocity_x = self.velocity[0] * self.param['t']
+        velocity_y = self.velocity[1] * self.param['t']
+        # print('velocity_x, velocity_y', velocity_x, velocity_y)
+        self.position = self.position + np.array([velocity_x, velocity_y])
+        # try:
+        #   self.position = self.position + self.velocity * self.param['t']
+        # except:
+        #   print('velocity: ', self.velocity)
+        #   print('velocity type: ', type(self.velocity))
+        #   print('position: ', self.position)
+        #   print('position type: ', type(self.position))
+        #   print('param t: ', self.param['t'])
+        #   print('param t type: ', type(self.param['t']))
+        # finally:
+        #   self.position = self.position + self.velocity * self.param['t']
