@@ -119,7 +119,7 @@ def get_visible_sheep(dog, sheep_arr):
     
     # TODO, remove when adding angle and handle it
     # assert len(visible_sheep) > 0, "No visible sheep found"
-    # return visible_sheep
+    return visible_sheep
 
 
 #* OK
