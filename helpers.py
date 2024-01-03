@@ -3,7 +3,14 @@ import math
 
 
 def vec_length(vec: np.array) -> float: 
-  return math.sqrt(vec[0]**2 + vec[1]**2)
+    try: 
+        return math.sqrt(vec[0]**2 + vec[1]**2)
+    except:
+        # Take only first two elements
+        print(vec)
+        return math.sqrt(vec[0][0]**2 + vec[0][1]**2)
+        
+    
 
 def unit_vector(vec: np.array) -> np.array:
   return vec / np.linalg.norm(vec)
@@ -17,6 +24,8 @@ def sheep_reached_goal(sheep, goal_position, goal_radius):
     """
     Check if the sheep has entered the goal area
     """
+    if vec_length(sheep.position - goal_position) <= goal_radius:
+        print(f"Sheep reached goal: {vec_length(sheep.position - goal_position) <= goal_radius}")
     return vec_length(sheep.position - goal_position) <= goal_radius
 
 

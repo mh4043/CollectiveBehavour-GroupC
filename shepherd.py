@@ -15,11 +15,12 @@ class ShepherdDog():
     lambd: int = 0 # Indicator of direction
     radius: int = 0 # Radius of the dog
 
-    def __init__(self, x:int, y:int, goal, parameters):
+    def __init__(self, x:int, y:int, rad: int, goal, parameters):
         self.position = np.array([int(x), int(y)])
+        self.radius = int(rad)
+
         self.param = parameters
         self.velocity = np.array([0, 0])
-        self.radius = parameters['ra']
 
         self.goal_position = np.array([int(goal[0]), int(goal[1])])
         self.goal_radius = int(goal[2])
@@ -107,3 +108,8 @@ class ShepherdDog():
 
     def move(self):
         self.position = self.position + self.velocity * self.param['t']
+
+        # Check if self.position is a 1x2 array
+        if self.position.shape != (2,):
+            self.position = self.position[0]
+            

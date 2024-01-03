@@ -72,6 +72,10 @@ class Sheep():
     def move(self):
         self.position = self.position + self.velocity * self.param['t']
 
+        # Check if self.position is a 1x2 array
+        if self.position.shape != (2,):
+            self.position = self.position[0]
+
         # Check goal entry
         self.goal_reached = sheep_reached_goal(self,
                                                   self.goal_position,

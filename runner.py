@@ -15,7 +15,7 @@ parameters = {key: float(p.split()[0]) for key, p in config['PARAMETERS'].items(
 goal = [int(config['GOAL']['X']), int(config['GOAL']['Y']), int(config['GOAL']['RAD'])]
 
 # Setup starting positions
-dog = ShepherdDog(config['DOG']['X'], config['DOG']['Y'], goal, parameters)
+dog = ShepherdDog(config['DOG']['X'], config['DOG']['Y'],config['DOG']['RAD'], goal, parameters)
 
 sheep_arr = []
 
@@ -30,8 +30,11 @@ success = False
 step = 0
 while step != 4000 and not success:
 
-    if not step % 2:
-        print(f"Step: {step}")
+    sheep_copy = [sheep for sheep in sheep_arr if not sheep.goal_reached]
+    goal_sheep = [sheep for sheep in sheep_arr if sheep.goal_reached]
+
+    if not step % 10 or not len(sheep_copy):
+        print(f"Step: {step}, sheep left: {len(sheep_copy)}")
         # Plot the current positions
         fig = plt.figure()
         ax = fig.subplots()
@@ -40,12 +43,12 @@ while step != 4000 and not success:
         height = int(config['WINDOW']['HEIGHT'])
 
         # Setup plot limits
-        ax.set_xlim(-100, width-100)
-        ax.set_ylim(0, height)
+        ax.set_xlim(0, 350)
+        ax.set_ylim(0, 350)
 
         # Setup ticks to show grid
-        ax.set_xticks(range(-50, int(config['WINDOW']['WIDTH']), 50))
-        ax.set_yticks(range(-50, int(config['WINDOW']['HEIGHT']), 50))
+        ax.set_xticks(range(0, 375, 50))
+        ax.set_yticks(range(0, 375, 50))
 
         # Show grid with reduced alpha
         ax.grid(alpha=0.25)
@@ -58,7 +61,7 @@ while step != 4000 and not success:
         
         # Draw the goal circle
         circle = plt.Circle((int(config['GOAL']['X']), int(config['GOAL']['Y'])), int(
-            config['GOAL']['RAD']), color='r', fill=False)
+            config['GOAL']['RAD'])+2, color='r', fill=False)
         
         ax.add_artist(circle)
 
@@ -66,20 +69,27 @@ while step != 4000 and not success:
 
         plt.close()
 
+    if not len(sheep_copy):
+        print("All sheep reached goal")
+        break
 
-    if dog.calculate_velocity(sheep_arr):
+    if dog.calculate_velocity(sheep_copy):
         # print("Success at step: ", step)
         break
     dog.move()
 
     # Move sheep
     for sheep in sheep_arr:
-        sheep.calculate_velocity(dog, sheep_arr, step)
-        sheep.move()
+        if sheep.goal_reached:
+            sheep.velocity = 0.99*sheep.velocity
+            sheep.move()
+        else:
+            sheep.calculate_velocity(dog, sheep_copy, step)
+            sheep.move()
+        
+        # TODO, check if sheep reached goal, if so, set goal_reached to True and remove from sheep_arr
 
-
-
-
+    
 
     step += 1
 
