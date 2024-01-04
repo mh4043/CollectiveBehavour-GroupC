@@ -37,9 +37,9 @@ class Sheep():
 
         vdi = 0
         # ? 10a Reaction to dog
-        if piq_vec_length > 0 and piq_vec_length <= dog.radius:
+        if piq_vec_length > 0 and piq_vec_length <= self.param['pn']:
             phi = self.param['alpha'] * \
-                (1 / piq_vec_length - 1/dog.radius)
+                (1 / piq_vec_length - 1/self.param['pn'])
             vdi = phi * unit_vector(piq)  # ? 9a
 
         vsi = 0

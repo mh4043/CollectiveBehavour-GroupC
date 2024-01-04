@@ -23,7 +23,7 @@ class ShepherdDog():
     src_direction_up: bool = True # in which direction the search is going
 
 
-    def __init__(self, x:int, y:int, rad: int, goal, parameters):
+    def __init__(self, x:int, y:int, rad: int, goal, parameters, side=None):
         self.position = np.array([int(x), int(y)])
         self.radius = int(rad)
 
@@ -33,9 +33,11 @@ class ShepherdDog():
         self.goal_position = np.array([int(goal[0]), int(goal[1])])
         self.goal_radius = int(goal[2])
 
+        self.side = side
+
         self.lambd = 0
 
-    def calculate_velocity(self, sheep_arr: list, step: int):
+    def calculate_velocity(self, sheep_arr: list, step: int, other_dog = None):
         self.velocity = np.array([80, 160])
 
         # Check if all sheep have reached the goal
@@ -49,6 +51,7 @@ class ShepherdDog():
         
         # Calculate visible sheep 
         visible_sheep = get_visible_sheep(self, sheep_arr)
+        cent_visible_sheep = calculate_sheep_herd_center(visible_sheep)
         # TODO, rotate sheep if needed when implementing the angle
 
         if(visible_sheep is None or len(visible_sheep) == 0): #! dog sees no sheep
@@ -73,14 +76,6 @@ class ShepherdDog():
             # vision_to_fence = ((self.src_direction_right and (self.position[0] + self.radius) > (self.param['width'] - x_offset))
             #                     or (not self.src_direction_right and (self.position[0] - self.radius) < (0 + x_offset)))
 
-
-            # if(next_step_out_of_bounds):
-            #   print('step ', step)
-            #   print('self.position[0]', self.position[0])
-            #   print('self.velocity[0]', self.velocity[0])
-            #   print('self.param[width]', self.param['width'])
-            #   print('self.param[t]', self.param['t'])
-            #   print('x_offset', x_offset)
             
             if((self.src_direction_right and (self.position[0] >= self.src_next_x)) #we reached the next x moving right
                or (not self.src_direction_right and (self.position[0] <= self.src_next_x)) #we reached the next x moving left
@@ -121,8 +116,13 @@ class ShepherdDog():
               # print('set moving x true ', self.velocity)
 
         else: #! dog sees at least one sheep
+          
+
+
           # Check if all sheep are on right side of the dog
           if all_sheep_on_right_side(sheep_arr, self, self.goal_position) and calc_left_cosine(sheep_arr, self, self.goal_position) > float(self.param['theta_t']): #? 24
+              if step in range(1040, 1080):
+                print("All sheep on right side")
               # print("All sheep on right side")
               self.lambd= 0
 
@@ -140,6 +140,8 @@ class ShepherdDog():
 
           # Check if all sheep are on left side of the dog
           elif all_sheep_on_left_side(sheep_arr, self, self.goal_position) and calc_right_cosine(sheep_arr, self, self.goal_position) > float(self.param['theta_t']): #? 25
+              if step in range(1040, 1080):
+                print("All sheep on left side")              
               # print("All sheep on left side")
               self.lambd = 1
 
@@ -156,6 +158,8 @@ class ShepherdDog():
                   self.velocity = int(self.param['gamma_b']) * rotation(float(self.param['theta_l'])).dot(unit_vector(piq))
           
           elif self.lambd == 1:
+              if step in range(1040, 1080):
+                print("Lambda 1")
               # print("Lambda = 1")
               # Get left most visible sheep
               left_most_sheep = find_left_most_visible_from_dog(visible_sheep, self)
@@ -167,8 +171,10 @@ class ShepherdDog():
               if vec_length(piq) >= float(self.param['ra']):
                   self.velocity = int(self.param['gamma_a']) * unit_vector(piq)
               else:
-                  self.velocity =int(self.param['gamma_b']) * rotation(float(self.param['theta_l'])).dot(piq)
+                  self.velocity =int(self.param['gamma_b']) * rotation(float(self.param['theta_l'])).dot(unit_vector(piq))
           else:
+              if step in range(1040, 1080):
+                print("Lambda 0")              
               # print("Lambda = 0")
               # Get right most visible sheep
               right_most_sheep = find_right_most_visible_from_dog(visible_sheep, self)
@@ -180,7 +186,7 @@ class ShepherdDog():
               if vec_length(piq) >= float(self.param['ra']):
                   self.velocity = int(self.param['gamma_a']) * unit_vector(piq)
               else:
-                  self.velocity = int(self.param['gamma_b']) * rotation(float(self.param['theta_r'])).dot(piq)
+                  self.velocity = int(self.param['gamma_b']) * rotation(float(self.param['theta_r'])).dot(unit_vector(piq))
 
 
 

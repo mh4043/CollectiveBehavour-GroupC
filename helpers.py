@@ -7,7 +7,6 @@ def vec_length(vec: np.array) -> float:
         return math.sqrt(vec[0]**2 + vec[1]**2)
     except:
         # Take only first two elements
-        print(vec)
         return math.sqrt(vec[0][0]**2 + vec[0][1]**2)
         
     
@@ -24,8 +23,6 @@ def sheep_reached_goal(sheep, goal_position, goal_radius):
     """
     Check if the sheep has entered the goal area
     """
-    if vec_length(sheep.position - goal_position) <= goal_radius:
-        print(f"Sheep reached goal: {vec_length(sheep.position - goal_position) <= goal_radius}")
     return vec_length(sheep.position - goal_position) <= goal_radius
 
 
@@ -37,8 +34,6 @@ def all_sheep_on_left_side(sheep_arr, dog, goal_position):
 
     for sheep in sheep_arr:
         # Use the vector from dog to sheep and dog to goal to determine if the sheep is on the left side
-        # TODO check result
-        #if np.cross(sheep.position - dog.position, goal_position - dog.position) < 0:
         if ((goal_position-dog.position)[0]*(sheep.position-dog.position)[1] - (goal_position-dog.position)[1]*(sheep.position-dog.position)[0]) < 0:
             return False
         
@@ -52,7 +47,6 @@ def all_sheep_on_right_side(sheep_arr, dog, goal_position):
 
     for sheep in sheep_arr:
         # Use the vector from dog to sheep and dog to goal to determine if the sheep is on the right side
-        #if np.cross(sheep.position - dog.position, goal_position - dog.position) > 0:
         if ((goal_position-dog.position)[0]*(sheep.position-dog.position)[1] - (goal_position-dog.position)[1]*(sheep.position-dog.position)[0]) > 0:
             return False
     return True
@@ -96,8 +90,6 @@ def sheep_is_covered(sheep, sheep_arr, dog): #? 11, 12
 #? 11
 #* OK
 def sheep_is_in_visible_range(sheep, dog):
-    # Check if distance from dog to sheep is less than the dog's vision radius
-
     return vec_length(sheep.position - dog.position) <= dog.radius
 
 #* OK
@@ -114,8 +106,6 @@ def sheep_is_visible(sheep, sheep_arr, dog):
     if sheep_is_covered(sheep, sheep_arr, dog):
         return False
     
-    # TODO Check if sheep is in dog's vision angle by using its position and velocity
-
     return True
 
 
@@ -126,8 +116,6 @@ def get_visible_sheep(dog, sheep_arr):
     """
     visible_sheep = [sheep for sheep in sheep_arr if sheep_is_visible(sheep, sheep_arr, dog)]
     
-    # TODO, remove when adding angle and handle it
-    # assert len(visible_sheep) > 0, "No visible sheep found"
     return visible_sheep
 
 
@@ -259,9 +247,7 @@ def calc_left_cosine(sheep_arr, dog, goal_position):
     dcd = unit_vector(goal_position - sheep_herd_center) #? 22
 
     # TODO Check why the division is using a vector length of 1 in dcd
-    #return np.inner(dcd, left_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(left_most_fold_sheep_vect))
-    # print(math.acos(np.dot(dcd, left_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(left_most_fold_sheep_vect))))
-    return math.acos(np.dot(dcd, left_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(left_most_fold_sheep_vect)))
+    return math.acos(np.inner(dcd, left_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(left_most_fold_sheep_vect)))
 
 
 #? 25
@@ -277,9 +263,7 @@ def calc_right_cosine(sheep_arr, dog, goal_position):
     dcd = unit_vector(goal_position - sheep_herd_center) #? 22
 
     # TODO Check why the division is using a vector length of 1 in dcd
-    #return np.inner(dcd, right_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(right_most_fold_sheep_vect))
-    # print(math.acos(np.dot(dcd, right_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(right_most_fold_sheep_vect))))
-    return math.acos(np.dot(dcd, right_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(right_most_fold_sheep_vect)))
+    return math.acos(np.inner(dcd, right_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(right_most_fold_sheep_vect)))
 
 
 #* OK
