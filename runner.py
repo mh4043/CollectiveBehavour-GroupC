@@ -28,9 +28,12 @@ for i in range(1, sheep_count + 1):
     sheep_obj.goal_not_reached = True
     sheep_arr.append(sheep_obj)
 
+# shp = Sheep(-100, -100, goal, parameters)
+# sheep_arr = [shp]
+
 success = False
 step = 0
-while step != 4000 and not success:
+while step != 400000 and not success:
 
     sheep_copy = [sheep for sheep in sheep_arr if not sheep.goal_reached]
     goal_sheep = [sheep for sheep in sheep_arr if sheep.goal_reached]
@@ -46,17 +49,19 @@ while step != 4000 and not success:
         height = int(config['WINDOW']['HEIGHT'])
 
         # Setup plot limits
-        ax.set_xlim(0, 350)
-        ax.set_ylim(0, 350)
+        ax.set_xlim(0, width)
+        ax.set_ylim(0, height)
 
         # Setup ticks to show grid
-        ax.set_xticks(range(0, 375, 50))
-        ax.set_yticks(range(0, 375, 50))
+        ax.set_xticks(range(0, width, 50))
+        ax.set_yticks(range(0, height, 50))
 
         # Show grid with reduced alpha
         ax.grid(alpha=0.25)
 
         ax.scatter(dog.position[0], dog.position[1], color='red', marker='o', s=25)
+        # dog_vision = plt.Circle((dog.position[0], dog.position[1]), dog.radius, color='teal', fill=False)
+        # ax.add_artist(dog_vision)
 
         # Draw sheep on plot
         ax.scatter([sheep_arr[i].position[0] for i in range(len(sheep_arr))], [
@@ -65,8 +70,14 @@ while step != 4000 and not success:
         # Draw the goal circle
         circle = plt.Circle((int(config['GOAL']['X']), int(config['GOAL']['Y'])), int(
             config['GOAL']['RAD'])+2, color='r', fill=False)
-        
         ax.add_artist(circle)
+        
+        # Draw the fence
+        x_offset = parameters['x_offset']
+        y_offset = parameters['y_offset']
+        fence = plt.Rectangle((0 + x_offset, 0 + y_offset), width-(2*x_offset)-1, height - (2*y_offset)-1, color='brown', fill=False)
+        ax.add_artist(fence)
+        
 
         fig.savefig(f'./figures/{step}.png')
 
@@ -76,7 +87,7 @@ while step != 4000 and not success:
         print("All sheep reached goal")
         break
 
-    if dog.calculate_velocity(sheep_copy):
+    if dog.calculate_velocity(sheep_copy, step):
         # print("Success at step: ", step)
         break
     dog.move()

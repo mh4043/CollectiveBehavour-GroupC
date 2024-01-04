@@ -35,7 +35,7 @@ class ShepherdDog():
 
         self.lambd = 0
 
-    def calculate_velocity(self, sheep_arr: list):
+    def calculate_velocity(self, sheep_arr: list, step: int):
         self.velocity = np.array([80, 160])
 
         # Check if all sheep have reached the goal
@@ -65,12 +65,17 @@ class ShepherdDog():
             self.velocity[0] = 0
             self.velocity[1] = search_velocity[1] if self.src_direction_up else -(search_velocity[1])
           
-          #TODO need to fix this part because dog goes out of bounds
+          
           if(self.src_moving_x): #* moving in x direction while searhing
             #first check bounds
             next_step_out_of_bounds = ((self.src_direction_right and (self.position[0] + self.velocity[0] * self.param['t']) >= (self.param['width'] - x_offset)) 
                                        or (not self.src_direction_right and (self.position[0] - self.velocity[0] * self.param['t']) <= (0 + x_offset)))
+            # vision_to_fence = ((self.src_direction_right and (self.position[0] + self.radius) > (self.param['width'] - x_offset))
+            #                     or (not self.src_direction_right and (self.position[0] - self.radius) < (0 + x_offset)))
+
+
             # if(next_step_out_of_bounds):
+            #   print('step ', step)
             #   print('self.position[0]', self.position[0])
             #   print('self.velocity[0]', self.velocity[0])
             #   print('self.param[width]', self.param['width'])
@@ -102,13 +107,12 @@ class ShepherdDog():
             
             if( (reachedTop and self.src_direction_up) #* dog reached the top -> move to self.src_direction
                 or (reachedBottom and not self.src_direction_up)): #* dog reached the bottom -> move to self.src_direction
-              diameter = 2*self.radius
               if(self.src_direction_right):
                 self.velocity = [abs(search_velocity[1]),0]
-                self.src_next_x = self.position[0] + diameter
+                self.src_next_x = self.position[0] + self.radius
               else:
                 self.velocity = [-abs(search_velocity[1]),0]
-                self.src_next_x = self.position[0] - diameter
+                self.src_next_x = self.position[0] - self.radius
               if(reachedTop):
                 self.src_direction_up = False
               elif(reachedBottom): 
