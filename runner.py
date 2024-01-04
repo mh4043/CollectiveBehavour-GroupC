@@ -23,7 +23,7 @@ sheep_arr = []
 
 sheep_count = int(config['SHEEP']['N'])
 for i in range(1, sheep_count + 1):
-    curr_sheep_x, curr_sheep_y = config['SHEEP'][f'p{i}'].split(',')
+    curr_sheep_x, curr_sheep_y = config['SHEEP'][f'p{i}'].split('#')[0].split(',')
     sheep_obj = Sheep(int(curr_sheep_x), int(curr_sheep_y), goal, parameters)
     sheep_obj.goal_not_reached = True
     sheep_arr.append(sheep_obj)
