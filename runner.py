@@ -12,10 +12,12 @@ config.read('config.ini')
 # Read parameters from config file
 parameters = {key: float(p.split()[0]) for key, p in config['PARAMETERS'].items()}
 
+# print(parameters)
 goal = [int(config['GOAL']['X']), int(config['GOAL']['Y']), int(config['GOAL']['RAD'])]
 
 # Setup starting positions
-dog = ShepherdDog(config['DOG']['X'], config['DOG']['Y'],config['DOG']['RAD'], goal, parameters)
+
+dog = ShepherdDog(config['DOG']['X'].split()[0], config['DOG']['Y'].split()[0], config['DOG']['RAD'].split()[0], goal, parameters)
 
 sheep_arr = []
 
@@ -33,8 +35,9 @@ while step != 4000 and not success:
     sheep_copy = [sheep for sheep in sheep_arr if not sheep.goal_reached]
     goal_sheep = [sheep for sheep in sheep_arr if sheep.goal_reached]
 
-    if not step % 10 or not len(sheep_copy):
+    if not step % 100 or not len(sheep_copy): #for testing plot every 100th step, for visualisation every 10th
         print(f"Step: {step}, sheep left: {len(sheep_copy)}")
+
         # Plot the current positions
         fig = plt.figure()
         ax = fig.subplots()
