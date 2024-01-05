@@ -3,3 +3,4 @@ venv
 __pycache__
 *.pyc
 figures_old_x_rotate
+figures_old

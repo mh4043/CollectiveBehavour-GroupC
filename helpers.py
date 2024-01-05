@@ -246,7 +246,7 @@ def calc_left_cosine(sheep_arr, dog, goal_position):
     sheep_herd_center = calculate_sheep_herd_center(visible_sheep) #? 19
     dcd = unit_vector(goal_position - sheep_herd_center) #? 22
 
-    # TODO Check why the division is using a vector length of 1 in dcd
+    #! Why do we use the length of a unit vector in multiplication as that does nothing (1 - "vec_length(dcd" * vec_length(left_most_fold_sheep_vect) = vec_length(left_most_fold_sheep_vect))
     return math.acos(np.inner(dcd, left_most_fold_sheep_vect) / (vec_length(dcd) * vec_length(left_most_fold_sheep_vect)))
 
 
