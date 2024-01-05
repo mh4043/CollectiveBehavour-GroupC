@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 from sheep import Sheep
 from shepherd import ShepherdDog
-from two_shepherds import ShepherdDogDuo
 import configparser
 import time
 
@@ -21,28 +20,30 @@ goal = [int(config['GOAL']['X']), int(config['GOAL']['Y']), int(config['GOAL']['
 # Split the string on comma and space and # to get values
 
 
+
 dogs = [ShepherdDog(config['DOG']['X'].split()[0], 
                   config['DOG']['Y'].split()[0], 
                   config['DOG']['RAD'].split()[0], 
                   goal, 
                   parameters,
-                  #side="left"
+                  )]
+
+dogs = [ShepherdDog(config['DOG']['X'].split()[0], 
+                  config['DOG']['Y'].split()[0], 
+                  config['DOG']['RAD'].split()[0], 
+                  goal, 
+                  parameters,
+                  side="left"
                   ),
          ShepherdDog(config['DOG']['X2'].split()[0], 
                   config['DOG']['Y2'].split()[0], 
                   config['DOG']['RAD2'].split()[0], 
                   goal, 
                   parameters,
-                  #side="right"
+                  side="right"
                   ),
 ]
-dogs = [ShepherdDog(config['DOG']['X'].split()[0], 
-                  config['DOG']['Y'].split()[0], 
-                  config['DOG']['RAD'].split()[0], 
-                  goal, 
-                  parameters,
-                  #side="left"
-                  )]
+
 
 dog_colors = ['red', 'purple']
 
@@ -55,16 +56,12 @@ for i in range(1, sheep_count + 1):
     sheep_obj.goal_not_reached = True
     sheep_arr.append(sheep_obj)
 
-# shp = Sheep(-100, -100, goal, parameters)
-# sheep_arr = [shp]
-
 # Delete all images in figures folder
 import os
 import glob
 files = glob.glob('./figures/*')
 for f in files:
     os.remove(f)
-
 
 success = False
 step = 0
@@ -130,26 +127,19 @@ while step != 400000 and not success:
         break
 
 
-    dogs[0].calculate_velocity(sheep_copy, step, None)
-    #dogs[1].calculate_velocity(sheep_copy, step, dogs[0])
+    dogs[0].calculate_velocity(sheep_copy, step, dogs[1])
+    dogs[1].calculate_velocity(sheep_copy, step, dogs[0])
     dogs[0].move()
-    #dogs[1].move()
-    #if step in [1040, 1060, 1080, 1100]:
-    if step in range(1040, 1070):
-        print(step, dogs[0].velocity, dogs[0].position)
-
+    dogs[1].move()
 
     # Move sheep
     for sheep in sheep_arr:
         if sheep.goal_reached:
+            # Slow down sheep if it reached goal
             sheep.velocity = 0.975*sheep.velocity
             sheep.move()
         else:
-            sheep.calculate_velocity(dog, sheep_copy, step)
+            sheep.calculate_velocity(dogs[0], sheep_copy, step, other_dog=dogs[1])
             sheep.move()
         
-        # TODO, check if sheep reached goal, if so, set goal_reached to True and remove from sheep_arr
-
-    
-
     step += 1

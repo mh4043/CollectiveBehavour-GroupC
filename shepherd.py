@@ -33,7 +33,7 @@ class ShepherdDog():
         self.goal_position = np.array([int(goal[0]), int(goal[1])])
         self.goal_radius = int(goal[2])
 
-        self.side = side
+        self.side=side
 
         self.lambd = 0
 
@@ -118,11 +118,8 @@ class ShepherdDog():
         else: #! dog sees at least one sheep
           
 
-
           # Check if all sheep are on right side of the dog
           if all_sheep_on_right_side(sheep_arr, self, self.goal_position) and calc_left_cosine(sheep_arr, self, self.goal_position) > float(self.param['theta_t']): #? 24
-              if step in range(1040, 1080):
-                print("All sheep on right side")
               # print("All sheep on right side")
               self.lambd= 0
 
@@ -140,8 +137,6 @@ class ShepherdDog():
 
           # Check if all sheep are on left side of the dog
           elif all_sheep_on_left_side(sheep_arr, self, self.goal_position) and calc_right_cosine(sheep_arr, self, self.goal_position) > float(self.param['theta_t']): #? 25
-              if step in range(1040, 1080):
-                print("All sheep on left side")              
               # print("All sheep on left side")
               self.lambd = 1
 
@@ -156,10 +151,8 @@ class ShepherdDog():
                   self.velocity = int(self.param['gamma_a']) * unit_vector(piq)
               else:
                   self.velocity = int(self.param['gamma_b']) * rotation(float(self.param['theta_l'])).dot(unit_vector(piq))
-          
+
           elif self.lambd == 1:
-              if step in range(1040, 1080):
-                print("Lambda 1")
               # print("Lambda = 1")
               # Get left most visible sheep
               left_most_sheep = find_left_most_visible_from_dog(visible_sheep, self)
@@ -173,8 +166,6 @@ class ShepherdDog():
               else:
                   self.velocity =int(self.param['gamma_b']) * rotation(float(self.param['theta_l'])).dot(unit_vector(piq))
           else:
-              if step in range(1040, 1080):
-                print("Lambda 0")              
               # print("Lambda = 0")
               # Get right most visible sheep
               right_most_sheep = find_right_most_visible_from_dog(visible_sheep, self)

@@ -21,7 +21,7 @@ class Sheep():
 
     # ? parameters for constant values from .ini file
 
-    def __init__(self, x: int, y: int, goal, parameters: dict[str, float],):
+    def __init__(self, x: int, y: int, goal, parameters: dict[str, float]):
         self.position = np.array([x, y])
         self.param = parameters
         self.velocity = np.array([0, 0])
@@ -30,10 +30,18 @@ class Sheep():
         self.goal_radius = int(goal[2])
 
     # ? 4
-    def calculate_velocity(self, dog, sheep_arr: list, step: int):
+    def calculate_velocity(self, dog, sheep_arr: list, step: int, other_dog=None):
         # ? 6 Distance from dog
         piq: np.array(int) = self.position - dog.position
         piq_vec_length: float = vec_length(piq)
+
+        if other_dog:
+            piq_other: np.array(int) = self.position - other_dog.position
+            piq_other_vec_length: float = vec_length(piq_other)
+
+        if piq_other_vec_length is not None and piq_other_vec_length < piq_vec_length:
+            piq_vec_length = piq_other_vec_length
+            piq = piq_other 
 
         vdi = 0
         # ? 10a Reaction to dog
