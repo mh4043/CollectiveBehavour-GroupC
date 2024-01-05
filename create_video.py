@@ -6,8 +6,7 @@ image_folder = './figures/'
 video_name = "sheepherding.mp4"
  
 
-fps=5
-
+fps=10
 
 
 # List images

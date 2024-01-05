@@ -35,6 +35,7 @@ class Sheep():
         piq: np.array(int) = self.position - dog.position
         piq_vec_length: float = vec_length(piq)
 
+        piq_other_vec_length: float = None
         if other_dog:
             piq_other: np.array(int) = self.position - other_dog.position
             piq_other_vec_length: float = vec_length(piq_other)

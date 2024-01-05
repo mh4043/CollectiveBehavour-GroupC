@@ -21,12 +21,6 @@ goal = [int(config['GOAL']['X']), int(config['GOAL']['Y']), int(config['GOAL']['
 
 
 
-dogs = [ShepherdDog(config['DOG']['X'].split()[0], 
-                  config['DOG']['Y'].split()[0], 
-                  config['DOG']['RAD'].split()[0], 
-                  goal, 
-                  parameters,
-                  )]
 
 dogs = [ShepherdDog(config['DOG']['X'].split()[0], 
                   config['DOG']['Y'].split()[0], 
@@ -44,6 +38,12 @@ dogs = [ShepherdDog(config['DOG']['X'].split()[0],
                   ),
 ]
 
+dogs = [ShepherdDog(config['DOG']['X'].split()[0], 
+                  config['DOG']['Y'].split()[0], 
+                  config['DOG']['RAD'].split()[0], 
+                  goal, 
+                  parameters,
+                  )]
 
 dog_colors = ['red', 'purple']
 
@@ -127,10 +127,10 @@ while step != 400000 and not success:
         break
 
 
-    dogs[0].calculate_velocity(sheep_copy, step, dogs[1])
-    dogs[1].calculate_velocity(sheep_copy, step, dogs[0])
+    dogs[0].calculate_velocity(sheep_copy, step, None)
+    #dogs[1].calculate_velocity(sheep_copy, step, dogs[0])
     dogs[0].move()
-    dogs[1].move()
+    #dogs[1].move()
 
     # Move sheep
     for sheep in sheep_arr:
@@ -139,7 +139,8 @@ while step != 400000 and not success:
             sheep.velocity = 0.975*sheep.velocity
             sheep.move()
         else:
-            sheep.calculate_velocity(dogs[0], sheep_copy, step, other_dog=dogs[1])
+            #sheep.calculate_velocity(dogs[0], sheep_copy, step, other_dog=dogs[1])
+            sheep.calculate_velocity(dogs[0], sheep_copy, step, None)
             sheep.move()
         
     step += 1
