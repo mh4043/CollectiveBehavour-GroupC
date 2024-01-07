@@ -50,7 +50,6 @@
                \end{cases} `$
     * $` \alpha, \beta \gt 0, \gamma \lt 0 `$ ... gains
     * $` \rho_n, \rho_r, \rho_g, \rho_d \gt 0 `$ ... distance parameters (radius from center of an entity, user defined)
-    * **Footnote: there might be some inconsistencies between distance parameters in the explanation in the article and on the figure 1 in the article!**
 
 * if $` \underline{ o(p_i^q(k)) = o(p_j^q(k)) } `$ and $` \underline{ ||p_j^q(k)|| \lt ||p_i^q(k)|| } `$ ... then $` i `$th sheep is *vision-blocked* by $` j `$th sheep from viewpoint of sheepdog. Otherwise it is *non vision-blocked*
   * $` i, j \in N, i \neq j `$
