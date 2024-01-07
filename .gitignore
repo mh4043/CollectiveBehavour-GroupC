@@ -1,4 +1,11 @@
 figures
 venv
+<<<<<<< HEAD
 .idea
 __pycache__
+=======
+__pycache__
+*.pyc
+figures_old_x_rotate
+figures_old
+>>>>>>> feature/Milestone_3

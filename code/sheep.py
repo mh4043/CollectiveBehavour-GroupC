@@ -21,7 +21,7 @@ class Sheep():
 
     # ? parameters for constant values from .ini file
 
-    def __init__(self, x: int, y: int, goal, parameters: dict[str, float],):
+    def __init__(self, x: int, y: int, goal, parameters: dict[str, float]):
         self.position = np.array([x, y])
         self.param = parameters
         self.velocity = np.array([0, 0])
@@ -30,16 +30,25 @@ class Sheep():
         self.goal_radius = int(goal[2])
 
     # ? 4
-    def calculate_velocity(self, dog, sheep_arr: list, step: int):
+    def calculate_velocity(self, dog, sheep_arr: list, step: int, other_dog=None):
         # ? 6 Distance from dog
         piq: np.array(int) = self.position - dog.position
         piq_vec_length: float = vec_length(piq)
 
+        piq_other_vec_length: float = None
+        if other_dog:
+            piq_other: np.array(int) = self.position - other_dog.position
+            piq_other_vec_length: float = vec_length(piq_other)
+
+        if piq_other_vec_length is not None and piq_other_vec_length < piq_vec_length:
+            piq_vec_length = piq_other_vec_length
+            piq = piq_other 
+
         vdi = 0
         # ? 10a Reaction to dog
-        if piq_vec_length > 0 and piq_vec_length <= dog.radius:
+        if piq_vec_length > 0 and piq_vec_length <= self.param['pn']:
             phi = self.param['alpha'] * \
-                (1 / piq_vec_length - 1/dog.radius)
+                (1 / piq_vec_length - 1/self.param['pn'])
             vdi = phi * unit_vector(piq)  # ? 9a
 
         vsi = 0
@@ -71,6 +80,10 @@ class Sheep():
 
     def move(self):
         self.position = self.position + self.velocity * self.param['t']
+
+        # Check if self.position is a 1x2 array
+        if self.position.shape != (2,):
+            self.position = self.position[0]
 
         # Check goal entry
         self.goal_reached = sheep_reached_goal(self,
