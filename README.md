@@ -27,7 +27,7 @@ At the final stage, we had a lot of ideas for improvements and extensions, but i
 ## How to run - instructions
 There are some Python packages required to be installed, in order to be able to run the program. Check requirements [here](https://github.com/mh4043/CollectiveBehavour-GroupC/blob/main/code/requirements.txt).
 
-The program can afterwards be simply run, by applying the command below. Make sure you are inside the right directory (.../code).
+The program can afterwards be simply run, by applying the command below. Make sure you are inside the right directory (.../code). Before run, also make sure to create the 'figures' directory on the root level.
 ```
 python runner.py
 ```
