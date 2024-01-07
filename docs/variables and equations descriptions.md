@@ -28,7 +28,7 @@
   * $` q(k) \in \mathbb{R}^{2} `$ ... position of the sheepdog at $` k `$th step
   * $` u(k) \in \mathbb{R}^{2} `$ ... velocity of the sheepdog at $` k `$th step
 
-* (6) $` \underline{ p_i^q(k) = p_i(k) - q(k) } `$ ... distance between $` i `$th sheep and sheepdog
+* (6) $` \underline{ p_i^q(k) = p_i(k) - q(k) } `$ ... displacement between $` i `$th sheep and sheepdog
 
 * (7) $` \underline{ v_i(k) = v_{di}(k) + R(\theta_i(k))*v_{si}(k) } `$ ... velocity of $` i `$th sheep divided into two parts
   * (8) $` \underline{ \theta_i(k) = a_i * \frac{\pi}{180} * sin(\omega_i*k*T) } `$
@@ -72,7 +72,7 @@
   * $` \gamma_i `$ ... parameter, user defined
 
 * (15) $` \underline{ \mathbb{P}_d = \{ p|p \in \mathbb{R}^{2}, ||p-p_d|| \leq \rho_o \} } `$ ... definition of sheepfold
-  * $` p_d \in \mathbb{R}^{2} `$
+  * $` p_d \in \mathbb{R}^{2} `$ ... parameter, center position of sheepfold
   * $` \rho_o \gt 0 `$ ... parameter, user defined
     
 * (16) $` p_i^d(k) = p_i(k) - p_d `$ ... distance between $` i `$th sheep and sheepfold
