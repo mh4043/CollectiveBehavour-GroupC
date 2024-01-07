@@ -31,6 +31,9 @@ The program can afterwards be simply run, by applying the command below. Make su
 ```
 python runner.py
 ```
+```
+python runner_2_dogs.py
+```
 
 Parameters of the program can be set in the [config.ini](https://github.com/mh4043/CollectiveBehavour-GroupC/blob/main/code/config.ini) file. The variables itself in the file are very descriptive. However, you can still help with the [file](https://github.com/mh4043/CollectiveBehavour-GroupC/blob/main/docs/variables%20and%20equations%20descriptions.md), containing some deeper explanations, which has already been mentioned before.
 
