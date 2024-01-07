@@ -21,7 +21,7 @@ We will be reviewing and recreating a collective behaviour algorithm for herding
 
 We managed to follow the milestones, declared at the very early stage of the project. We also tried to follow the feedback of the other participants of the course as much as possible. This helped us improve our work.
 
-At the final stage, we had a lot of ideas for improvements and extensions, but in the end we decided to apply only few of them. The reason is because we faced some problems at the implementation. Instead, we focused only on chosen ones and made sure for those to be qualitative.
+At the final stage, we had a lot of ideas for improvements and extensions, but in the end we decided to apply only few of them. The reason is because we faced some problems at the implementation. Instead, we focused only on the chosen ones and made sure for these to be qualitative.
 
 ## Conclusions
 In our work, more specifically in the implementation itself, we also used some rigorous equations. Some detailed explanations can be found [here](https://github.com/mh4043/CollectiveBehavour-GroupC/blob/main/docs/variables%20and%20equations%20descriptions.md). More detailed steps of the basic algorithm can be found [here](https://github.com/mh4043/CollectiveBehavour-GroupC/blob/main/docs/algorithm%20description.md).
@@ -29,7 +29,12 @@ In our work, more specifically in the implementation itself, we also used some r
 ## How to run - instructions
 There are some Python packages required to be installed, in order to be able to run the program. Check requirements [here](https://github.com/mh4043/CollectiveBehavour-GroupC/blob/main/code/requirements.txt).
 
-Instructions here - TODO
+The program can afterwards be simply run, by applying the command below. Make sure you are inside the right directory (.../code).
+```python
+python runner.py
+```
+
+Parameters of the program can be set in the [config.ini](https://github.com/mh4043/CollectiveBehavour-GroupC/blob/main/code/config.ini) file. The variables itself in the file are very descriptive. However, you can still help with the [file](https://github.com/mh4043/CollectiveBehavour-GroupC/blob/main/docs/variables%20and%20equations%20descriptions.md), containing some deeper explanations, which has already been mentioned before.
 
 ### References
 <a id="1">[1]</a>

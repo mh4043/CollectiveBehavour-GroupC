@@ -62,7 +62,7 @@ while step != 4000 and not success:
         
         ax.add_artist(circle)
 
-        fig.savefig(f'./figures/{step}.png')
+        fig.savefig(f'{step}.png')
 
         plt.close()
 
